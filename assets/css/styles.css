@@ -15,7 +15,7 @@
   --hero-panel: linear-gradient(145deg, #eab185 0%, #d99060 100%);
   --card-glow: radial-gradient(circle at top, rgba(55, 136, 255, 0.32), transparent 58%);
   --contact-bg: linear-gradient(135deg, #2283ff 0%, #2877e3 55%, #1d67cc 100%);
-  --theme-duration: 0.9s;
+  --theme-duration: 0.7s;
   --theme-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --space-1: 8px;
   --space-2: 12px;
@@ -68,6 +68,7 @@ body {
   transition:
     background var(--theme-duration) var(--theme-ease),
     color var(--theme-duration) var(--theme-ease);
+  isolation: isolate;
 }
 
 h1,
@@ -89,6 +90,24 @@ body::before {
   background-size: 120px 120px;
   mask-image: linear-gradient(180deg, transparent, black 18%, black 82%, transparent);
   opacity: 0.32;
+  transition:
+    opacity var(--theme-duration) var(--theme-ease),
+    background var(--theme-duration) var(--theme-ease);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 62%);
+  opacity: 0;
+  transition: opacity 0.55s ease;
+}
+
+html.theme-transitioning body::after {
+  opacity: 1;
 }
 
 html[data-theme="light"] body {
@@ -121,11 +140,10 @@ textarea,
 .contact,
 .site-footer {
   transition:
-    background var(--theme-duration) var(--theme-ease),
+    background-color var(--theme-duration) var(--theme-ease),
+    background-image var(--theme-duration) var(--theme-ease),
     color var(--theme-duration) var(--theme-ease),
     border-color var(--theme-duration) var(--theme-ease),
-    box-shadow var(--theme-duration) var(--theme-ease),
-    transform var(--theme-duration) var(--theme-ease),
     opacity var(--theme-duration) var(--theme-ease);
 }
 
@@ -261,6 +279,9 @@ button {
   border-radius: 50%;
   background: linear-gradient(135deg, #ffffff 0%, #a8d4ff 100%);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  transition:
+    transform var(--theme-duration) var(--theme-ease),
+    background var(--theme-duration) var(--theme-ease);
 }
 
 html[data-theme="light"] .theme-toggle__thumb {

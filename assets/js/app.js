@@ -2,6 +2,7 @@ const root = document.documentElement;
 const toggle = document.querySelector(".theme-toggle");
 const toggleLabel = document.querySelector(".theme-toggle__label");
 const storageKey = "portfolio-theme";
+let themeTransitionTimer;
 
 const getPreferredTheme = () => {
   const savedTheme = window.localStorage.getItem(storageKey);
@@ -25,8 +26,13 @@ applyTheme(getPreferredTheme());
 
 toggle.addEventListener("click", () => {
   const nextTheme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  root.classList.add("theme-transitioning");
   applyTheme(nextTheme);
   window.localStorage.setItem(storageKey, nextTheme);
+  window.clearTimeout(themeTransitionTimer);
+  themeTransitionTimer = window.setTimeout(() => {
+    root.classList.remove("theme-transitioning");
+  }, 580);
 });
 
 document.querySelector(".contact__form").addEventListener("submit", (event) => {
